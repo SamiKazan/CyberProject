@@ -1,0 +1,18 @@
+<h2>Your Notes</h2>
+<div style="float: right">
+  <a href="/logout/" >Logout</a>
+</div>
+
+<div>
+  <form method="get" action="/notes/search/">
+    <input type="text" name="q" placeholder="Search">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<ul>
+  {% for note in notes %}
+    <li>{{ note.title }} - <a href="/notes/view?id={{ note.id }}">View</a></li>
+  {% endfor %}
+</ul>
+<a href="/notes/create/">Add Note</a>
