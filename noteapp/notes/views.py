@@ -13,7 +13,7 @@ logger = logging.getLogger('notes')
 def index(request):
     return render(request, 'index.html')
 
-# A07 Insecure login works unpredictably (correct username + password doesnt always work)
+# A07 Insecure login (password saved as plaintext)
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -52,6 +52,17 @@ def logout_view(request):
     logout(request)
     return redirect('/')
 
+# A07 password saved as plaintext
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = User.objects.create(username=username, password=password)
+        login(request, user)
+        return redirect('/notes/')
+    return render(request, 'register.html')
+# the create_user function automatically hashes the password
+'''
 def register(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -60,6 +71,7 @@ def register(request):
         login(request, user)
         return redirect('/notes/')
     return render(request, 'register.html')
+'''
 
 @login_required
 def notes_home(request):
